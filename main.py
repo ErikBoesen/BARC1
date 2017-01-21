@@ -6,11 +6,14 @@ from omxplayer import OMXPlayer
 
 def main():
 	GPIO.setmode(GPIO.BCM)
-	filepath26 = '/home/pi/entertained.mp4'
-	filepath19 = '/home/pi/darkness.mp4'
-	filepath6 = '/home/pi/jericho.mp4'
-	filepath13 = '/home/pi/no_one_cared.mp4'
-	filepath5 = '/home/pi/matter.mp4'
+	filepath26 = '/home/pi/video26.mp4'
+	filepath19 = '/home/pi/video19.mp4'
+	filepath13 = '/home/pi/video13.mp4'
+	filepath6 = '/home/pi/video6.mp4'
+	filepath5 = '/home/pi/video5.mp4'
+	filepath10 = '/home/pi/video10.mp4'
+	filepath9 = '/home/pi/video9.mp4'
+	filepath11 = '/home/pi/video11.mp4'
 	
 	for i in range(2,27):
 		GPIO.setup(i, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -52,10 +55,26 @@ def main():
 			player.pause()
 			player.load(filepath5)
 			player.play()
+			
+		if input_state[10] == False:
+			player.pause()
+			player.load(filepath10)
+			player.play()
+			
+		if input_state[9] == False:
+			player.pause()
+			player.load(filepath9)
+			player.play()
+			
+		if input_state[11] == False:
+			player.pause()
+			player.load(filepath11)
+			player.play()
 	
 		
 		if input_state[20] == False:
 			player.play_pause()
+			time.sleep(0.125)
 			
 		if input_state[16] == False:
 			player.seek(5)
