@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 
 import RPi.GPIO as GPIO
+import picamera
 import time
 from omxplayer import OMXPlayer
 
 def main():
+	try:
+		camera = picamera.PiCamera()
+	except:
+		print('')
+	
 	GPIO.setmode(GPIO.BCM)
 	filepath26 = '/home/pi/video26.mp4'
 	filepath19 = '/home/pi/video19.mp4'
@@ -20,6 +26,10 @@ def main():
 	
 	counter = [0] * 27
 	input_state = [ True ] * 27
+	
+	is_recording = False
+	is_previewing = False
+	
 	
 	player = OMXPlayer(filepath26)
 	length = player.duration()
@@ -84,6 +94,26 @@ def main():
 			
 		if input_state[12] == False:
 			player.quit()
+			
+		if input_state[2] == False:
+			camera.start_preview()
+			time.sleep(5)
+			camera.stop_preview()
+			
+		if input_state[3] == False:
+			camera.capture(time.strftime('./pictures/%a, %d-%b-%Y %H:%M:%S', time.gmtime()) + '.jpg')
+		
+		if input_state[4] == False:
+			'''if is_recording == True:
+				camera.stop_recording()
+				is_recording = False
+			else:
+				camera.start_recording(time.strftime('./videos/%a, %d-%b-%Y %H:%M:%S', time.gmtime()) + '.h264')
+				is_recording = True
+				time.sleep(0.1)'''
+			camera.start_recording(time.strftime('./videos/%a, %d-%b-%Y %H:%M:%S', time.gmtime()) + '.h264')
+			time.sleep(15)
+			camera.stop_recording()
 		
 
 if __name__ == '__main__':
